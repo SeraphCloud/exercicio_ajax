@@ -48,11 +48,13 @@
         const followingsElement = document.querySelector("#following");
         const linkElement = document.querySelector("#link");
 
-        fetch("https://api.github.com/users/seraphcloud")
-          .then(function (resposta) {
-            return resposta.json();
-          })
-          .then(function (json) {
+        const load = async () => {
+          try {
+            const response = await fetch(
+              "https://api.github.com/users/seraphcloud"
+            );
+            const json = await response.json();
+
             nameElement.innerText = json.name;
             usernameElement.innerText = json.login;
             avatarElement.src = json.avatar_url;
@@ -60,7 +62,12 @@
             followersElement.innerText = json.followers;
             reposElement.innerText = json.public_repos;
             linkElement.href = json.html_url;
-          });
+          } catch (err) {
+            alert("Ocorreu um erro ao carregar os dados.");
+          }
+        };
+
+        load();
       });
     </script>
   </body>
